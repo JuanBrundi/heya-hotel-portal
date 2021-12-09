@@ -6,7 +6,7 @@ import MyLayout from './MyLayout';
 import AuthProvider from './AuthProvider';
 import LoginWithTheme from './MyLoginPage';
 import { Route } from 'react-router';
-import { RegistrationForm } from './RegistrationForm';
+import { RegistrationForm,EditHotel } from './Resources/Hotels';
 
 const dataProvider = crudProvider('http://localhost:3000');
 const App = () => 
@@ -24,7 +24,7 @@ const App = () =>
       ]}
     >
       { permissions => [
-        <Resource name="hotels" list={HotelList} create={RegistrationForm} edit={RegistrationForm}/>
+        <Resource name="hotels" list={HotelList} create={RegistrationForm} edit={EditHotel}/>
       ]}
     </Admin>
 
