@@ -92,8 +92,8 @@ const Login = () => {
     const history = useHistory();
 
     const goToRegistration = () => { 
-        let path = `registration`; 
-        history.push(path, {basePath: "registration", resource:"hotels" });
+        let path = `auth/register`; 
+        history.push(path, {basePath: "auth/register", resource:"auth" });
       }
 
     const handleSubmit = (auth: FormValues) => {
