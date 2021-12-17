@@ -1,54 +1,31 @@
-import { useEffect } from 'react';
-import { SimpleForm, TextInput, Create, useDataProvider, useCreate, useNotify} from 'react-admin';
+import { SimpleForm, TextInput, Create, useNotify } from 'react-admin';
 
 export const CreateUser = (props: any) => {
-  const dataProvider = useDataProvider();
   const notify = useNotify()
-  const [create, { loading, error, data }] = useCreate();
-
-  const onSuccess = async (res: any) => {
-    const { email, metamaskHex, polkadotSs58 } = res?.data || {}
-    const data = {
-      email,
-      pwd: metamaskHex ? metamaskHex : polkadotSs58 ? polkadotSs58 : ""
-    }
-
-    // await fetch('http://localhost:3000/auth/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then(response => response.json())
-    //   .then(({ access_token }) => {
-    //     notify(`Register user succeed`)
-    //     localStorage.setItem('username', access_token)
-    //     return
-    //   })
-    //   .then(() => {
-    //     notify(`Register your hotel`)
-    //     redirect("/hotels/create")
-    //   })
-    //   .catch((error) => {
-    //     notify(error)
-    //   });
-  }
+  
   const save = async (data: any) => {
-    create("auth/register", data)
+    await fetch('http://localhost:3000/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...data, role: "admin" }),
+    })
+      .then(response => response.json())
+      .then(({ jwt }) => {
+        localStorage.setItem('jwt', jwt)
+        return
+      })
+      .catch((error) => {
+        notify(error)
+      });
   }
 
-  useEffect(() => {
-    console.log(data, "DATA NI BOSSS")
-    console.log(loading, "LOADING NI BOSSS")
-    console.log(error, "ERROR NI BOSSS")
-  }, [data, loading, error])
   return (
     <Create
       title="Create new user"
       basePath="registration"
       resource="auth/register"
-      onSuccess={onSuccess}
       {...props}
     >
       <SimpleForm save={save} redirect="hotels">
