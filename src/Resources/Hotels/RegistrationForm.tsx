@@ -16,7 +16,7 @@ export const RegistrationForm = (props: any) => {
         'Content-Type': 'application/json',
         'Authorization': jwt ? `Bearer ${jwt}` : ''
       },
-      body: JSON.stringify({ ...data, userId: authState.id }),
+      body: JSON.stringify({ ...data, userId: 8 }),
     })
       .then(response => response.json())
       .then((data) => {
