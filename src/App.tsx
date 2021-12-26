@@ -8,12 +8,10 @@ import LoginWithTheme from './MyLoginPage';
 import { Route } from 'react-router';
 import { RegistrationForm, EditHotel } from './Resources/Hotels';
 import { CreateUser } from "./Resources/Auth";
-import { customStateReducer } from "./CustomRedux";
 
 const dataProvider = crudProvider('http://localhost:3000');
 const App = () =>
   <Admin
-    customReducers={{ customState: customStateReducer }}
     dataProvider={dataProvider}
     layout={MyLayout}
     authProvider={AuthProvider}
