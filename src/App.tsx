@@ -1,6 +1,6 @@
 import './App.css';
 import crudProvider from 'ra-data-nestjsx-crud'
-import { Admin, Resource } from 'react-admin';
+import { Admin, Resource, fetchUtils } from 'react-admin';
 import { HotelList } from './Resources/Hotels/hotel-list';
 import MyLayout from './MyLayout';
 import AuthProvider from './AuthProvider';
@@ -9,7 +9,18 @@ import { Route } from 'react-router';
 import { RegistrationForm, EditHotel } from './Resources/Hotels';
 import { CreateUser } from "./Resources/Auth";
 
-const dataProvider = crudProvider('http://localhost:3000');
+const fetchJson = (url: string, options: any = {}) => {
+  if (!options.headers) {
+      options.headers = new Headers({ Accept: 'application/json' });
+  }
+  const jwt: any = localStorage.getItem('username');
+  // add your own headers here
+  options.headers.set('Authorization', `Bearer ${jwt}`);
+  return fetchUtils.fetchJson(url, options);
+}
+
+
+const dataProvider = crudProvider('http://localhost:3000', fetchJson);
 const App = () =>
   <Admin
     dataProvider={dataProvider}

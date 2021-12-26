@@ -1,5 +1,4 @@
 import { SimpleForm, TextInput, Create, useRedirect, useNotify } from 'react-admin';
-import { useSelector } from 'react-redux';
 import jwt_decode from "jwt-decode";
 export const RegistrationForm = (props: any) => {
   //manually add basePath & resource because this form is accessible from the login page
@@ -20,13 +19,8 @@ export const RegistrationForm = (props: any) => {
       body: JSON.stringify({ ...data, userId: sub }),
     })
       .then(response => response.json())
-      .then((data) => {
-        redirect("/hotels")
-        return
-      })
-      .catch((error) => {
-        notify(error)
-      });
+      .then((data) => redirect("/hotels"))
+      .catch((error) => notify(error));
   }
 
   return (
