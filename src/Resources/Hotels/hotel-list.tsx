@@ -1,7 +1,7 @@
 import { List, Datagrid, TextField } from 'react-admin';
 
 export const HotelList = (props: any) => (
-    <List {...props}>
+    <List {...props} resource="hotels">
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />

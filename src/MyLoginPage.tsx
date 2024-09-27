@@ -74,9 +74,25 @@ const renderPwdInput = ({
     />
 )};
 
+const renderEmailInput = ({
+    meta: { touched, error } = { touched: false, error: undefined },
+    input: { ...inputProps },
+    ...props
+}) => {
+    return (
+    <TextField
+        error={!!(touched && error)}
+        helperText={touched && error}
+        {...inputProps}
+        {...props}
+        fullWidth
+    />
+)};
+
 interface FormValues {
     username?: string;
     password?: string;
+    email?: string;
 }
 
 const { Form } = withTypes<FormValues>();
@@ -92,13 +108,13 @@ const Login = () => {
     const history = useHistory();
 
     const goToRegistration = () => { 
-        let path = `registration`; 
-        history.push(path, {basePath: "registration", resource:"hotels" });
+        let path = `auth/register`; 
+        history.push(path, {basePath: "auth/register", resource:"auth" });
       }
 
     const handleSubmit = (auth: FormValues) => {
         setLoading(true);
-        login(auth, location.state ? location.state.nextPathname : '/').catch(
+        login({pwd: auth.password, email: auth.email}, location.state ? location.state.nextPathname : '/').catch(
             (error: Error) => {
                 setLoading(false);
                 notify(
@@ -155,8 +171,8 @@ const Login = () => {
         <Form
             onSubmit={handleSubmit}
             validate={validate}
-            render={({ handleSubmit }) => (
-                <form onSubmit={handleSubmit} noValidate>
+            render={(props) => (
+                <form onSubmit={props.handleSubmit} noValidate>
                     <div className={classes.main}>
                         <Card className={classes.card}>
                             <div className={classes.avatar}>
@@ -182,6 +198,16 @@ const Login = () => {
                                         // @ts-ignore
                                         component={renderIdInput}
                                         label={translate('Metamask ID')}
+                                        disabled={loading}
+                                    />
+                                </div>
+                                <div className={classes.input}>
+                                    <Field
+                                        name="email"
+                                        // @ts-ignore
+                                        component={renderEmailInput}
+                                        label="Email"
+                                        type="email"
                                         disabled={loading}
                                     />
                                 </div>
